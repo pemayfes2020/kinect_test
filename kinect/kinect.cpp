@@ -54,7 +54,6 @@ public:
                     | libfreenect2::Frame::Ir
                     | libfreenect2::Frame::Depth;
         listener = std::make_shared<libfreenect2::SyncMultiFrameListener>(types);
-        libfreenect2::FrameMap frames;
         device->setColorFrameListener(listener.get());
         device->setIrAndDepthFrameListener(listener.get());
 
@@ -78,14 +77,18 @@ public:
 
     void update()
     {
+        std::cout << __LINE__ << std::endl;
         if (!listener->waitForNewFrame(frames, 10 * 1000)) {
             std::cerr << "timeout!" << std::endl;
             std::exit(EXIT_FAILURE);
         }
+
+        std::cout << __LINE__ << std::endl;
         libfreenect2::Frame* rgb = frames[libfreenect2::Frame::Color];
         libfreenect2::Frame* ir = frames[libfreenect2::Frame::Ir];
         libfreenect2::Frame* depth = frames[libfreenect2::Frame::Depth];
 
+        std::cout << __LINE__ << std::endl;
         images.rgb = cv::Mat{
             (int)rgb->height, (int)rgb->width,
             CV_8UC4, rgb->data}
@@ -101,7 +104,9 @@ public:
             CV_32FC1, depth->data}
                            .clone();
 
+        std::cout << __LINE__ << std::endl;
         listener->release(frames);
+        std::cout << __LINE__ << std::endl;
     }
 
     Images getImages()

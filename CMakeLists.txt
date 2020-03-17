@@ -5,6 +5,8 @@ set(CMAKE_C_COMPILER "/usr/bin/gcc" CACHE STRING "gcc compiler" FORCE)
 set(CMAKE_C_FLAG "${CMAKE_C_FLAGS} -g -O0")
 set(CMAKE_CXX_FLAG "${CMAKE_C_FLAGS} -g -O0 -lboost_system")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(KINECT_TEST LANGUAGES C CXX)
 

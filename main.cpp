@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
 
     while (true) {
         Kinect::update();
-
+    
+        std::cout << "hoge" << std::endl;
         auto [rgb, ir, depth] = Kinect::getImages();
 
         cv::imshow("rgb", rgb);
