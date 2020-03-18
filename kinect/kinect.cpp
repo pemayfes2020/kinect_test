@@ -15,7 +15,6 @@ class KinectManager
 {
 private:
     libfreenect2::Freenect2 freenect2;
-    std::shared_ptr<libfreenect2::PacketPipeline> pipeline;
     libfreenect2::Freenect2Device* device;
     std::shared_ptr<libfreenect2::SyncMultiFrameListener> listener;
     libfreenect2::FrameMap frames;
@@ -24,7 +23,7 @@ private:
 
 public:
     KinectManager()
-        : freenect2{}, pipeline{nullptr}, device{nullptr},
+        : freenect2{}, device{nullptr},
           listener{}, frames{}
     {
         // Logging
@@ -44,16 +43,14 @@ public:
         }
         std::string serial = freenect2.getDefaultDeviceSerialNumber();
 
-        // Open Pipeline
-        pipeline = std::make_shared<libfreenect2::PacketPipeline>();
-
         // Open and Configure the Device
-        device = freenect2.openDevice(serial, pipeline.get());
+        device = freenect2.openDevice(serial);
 
-        int types = libfreenect2::Frame::Color
-                    | libfreenect2::Frame::Ir
-                    | libfreenect2::Frame::Depth;
-        listener = std::make_shared<libfreenect2::SyncMultiFrameListener>(types);
+        listener = std::make_shared<libfreenect2::SyncMultiFrameListener>(
+            libfreenect2::Frame::Color
+                | libfreenect2::Frame::Ir
+                | libfreenect2::Frame::Depth);
+
         device->setColorFrameListener(listener.get());
         device->setIrAndDepthFrameListener(listener.get());
 
@@ -77,18 +74,15 @@ public:
 
     void update()
     {
-        std::cout << __LINE__ << std::endl;
         if (!listener->waitForNewFrame(frames, 10 * 1000)) {
             std::cerr << "timeout!" << std::endl;
             std::exit(EXIT_FAILURE);
         }
 
-        std::cout << __LINE__ << std::endl;
         libfreenect2::Frame* rgb = frames[libfreenect2::Frame::Color];
         libfreenect2::Frame* ir = frames[libfreenect2::Frame::Ir];
         libfreenect2::Frame* depth = frames[libfreenect2::Frame::Depth];
 
-        std::cout << __LINE__ << std::endl;
         images.rgb = cv::Mat{
             (int)rgb->height, (int)rgb->width,
             CV_8UC4, rgb->data}
@@ -96,17 +90,15 @@ public:
 
         images.ir = cv::Mat{
             (int)ir->height, (int)ir->width,
-            CV_32FC1, ir->data}
+            CV_32F, ir->data}
                         .clone();
 
         images.depth = cv::Mat{
             (int)depth->height, (int)depth->width,
-            CV_32FC1, depth->data}
+            CV_32F, depth->data}
                            .clone();
 
-        std::cout << __LINE__ << std::endl;
         listener->release(frames);
-        std::cout << __LINE__ << std::endl;
     }
 
     Images getImages()
