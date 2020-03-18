@@ -21,8 +21,6 @@ int main(int argc, char* argv[])
         cv::imshow("ir", ir);
         cv::imshow("depth", depth);
 
-        std::cout << ir << std::endl;
-
         cv::waitKey(1);
     }
 
