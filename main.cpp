@@ -1,4 +1,5 @@
 #include "kinect.hpp"
+#include "circle.hpp"
 
 #include <opencv/cv.hpp>
 
@@ -18,8 +19,14 @@ int main(int argc, char* argv[])
         auto [rgb, ir, depth] = Kinect::getImages();
 
         cv::imshow("rgb", rgb);
-        cv::imshow("ir", ir);
+        //cv::imshow("ir", ir);
         cv::imshow("depth", depth);
+
+        cv::Mat kineImg = detectCircle(rgb);
+
+        cv::imshow(kineImg);
+
+
 
         cv::waitKey(1);
     }

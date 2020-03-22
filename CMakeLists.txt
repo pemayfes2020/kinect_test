@@ -15,7 +15,7 @@ set(CMAKE_MODULE_PATH /usr/local/share/cmake-3.14/Modules)
 find_package(freenect2 REQUIRED)
 find_package(OpenCV REQUIRED)
 
-file(GLOB MAIN_SOURCES main.cpp kinect/*.cpp)
+file(GLOB MAIN_SOURCES main.cpp kinect/*.cpp circle/*.cpp)
 
 include_directories(
     ${freenect2_INCLUDE_DIRS}
