@@ -1,9 +1,17 @@
 #include "circle.hpp"
+#include <iostream>
+#include <vector>
 
 #define  LOW_SATURATION 65              //saturation（彩度）の下限
 #define  LOW_VALUE      50              //value（明度）の下限
 
-namespace circle{
+#define LOW_HUE 95
+#define UP_HUE 105
+
+using namespace std;
+using namespace cv;
+
+namespace circleSpace{
   cv::Mat detectCircle(cv::Mat image){
     cv::Mat hsv, frame, hue, hue1, hue2, saturation, value, hue_saturation, image_black_white;  
 

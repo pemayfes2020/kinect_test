@@ -1,6 +1,6 @@
 #pragma once 
 #include <opencv/cv.hpp>
 
-namespace circle{
+namespace circleSpace{
   cv::Mat detectCircle(cv::Mat image);
-} //namespace circle
+} //namespace circleSpace

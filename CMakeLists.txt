@@ -21,6 +21,7 @@ include_directories(
     ${freenect2_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
     kinect
+    circle
     )
 
 add_executable(kinect_test ${MAIN_SOURCES})

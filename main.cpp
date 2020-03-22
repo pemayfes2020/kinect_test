@@ -22,9 +22,9 @@ int main(int argc, char* argv[])
         //cv::imshow("ir", ir);
         cv::imshow("depth", depth);
 
-        cv::Mat kineImg = detectCircle(rgb);
+        cv::Mat kineImg = circleSpace::detectCircle(rgb);
 
-        cv::imshow(kineImg);
+        cv::imshow("kineImg", kineImg);
 
 
 
